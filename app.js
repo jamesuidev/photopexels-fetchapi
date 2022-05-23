@@ -6,14 +6,22 @@ let searchValue;
 
 async function curatedPhotos() {
   const dataFetch = await fetch("https://api.pexels.com/v1/curated", {
-    method: GET,
+    method: "GET",
     headers: {
       Accept: "application/json",
       Authorization: auth,
     },
   });
   const data = await dataFetch.json();
-  console.log(data);
+  //   data parsed into object that we can make use of
+  data.photos.forEach((photo) => {
+    console.log(photo);
+    const galleryImg = document.createElement("div");
+    galleryImg.classList.add(".gallery-img");
+    galleryImg.innerHTML = `<img src=${photo.src.large}></img>
+    <p>${photo.photographer}</p>`;
+    gallery.appendChild(galleryImg);
+  });
 }
 
 curatedPhotos();
