@@ -4,12 +4,16 @@ const searchInput = document.querySelector(".search-input");
 const form = document.querySelector(".search-form");
 let searchValue;
 const more = document.querySelector(".more");
+let page = 1;
+let fetchLink;
+let currentSearch;
 
 // Add event listeners
 searchInput.addEventListener("input", updateInput);
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
+  currentSearch = searchValue;
   searchPhotos(searchValue);
 });
 more.addEventListener("click", loadMore);
@@ -39,21 +43,28 @@ function generatePictures(data) {
     </div>
     <img src=${photo.src.large}></img>`;
     gallery.appendChild(galleryImg);
+    galleryImg.addEventListener("hover", (photo) => {
+      const choiceList = document.createElement("div");
+      choiceList.classList.add("choice-overlay");
+      const list = document.createElement("ul");
+      list.classList.add("choice-list");
+      document.createElement("li");
+    });
   });
 }
 async function curatedPhotos() {
-  const data = await fetchApi(`
-    https://api.pexels.com/v1/curated?per_page=15&page=1
-  `);
+  fetchLink = `
+  https://api.pexels.com/v1/curated?per_page=15&page=1
+`;
+  const data = await fetchApi(fetchLink);
   generatePictures(data);
   //   data parsed into object that we can make use of
 }
 async function searchPhotos(query) {
   clear();
-  const data = await fetchApi(
-    `https://api.pexels.com/v1/search?query=${query}+query&per_page=15&page=1
-  `
-  );
+  fetchLink = `https://api.pexels.com/v1/search?query=${query}+query&per_page=15&page=1
+  `;
+  const data = await fetchApi(fetchLink);
   //   data parsed into object that we can make use of
   generatePictures(data);
 }
@@ -61,5 +72,16 @@ async function searchPhotos(query) {
 function clear() {
   gallery.innerHTML = "";
   searchInput.value = "";
+}
+async function loadMore() {
+  page++;
+  if (currentSearch) {
+    fetchLink = `https://api.pexels.com/v1/search?query=${currentSearch}+query&per_page=15&page=${page};
+`;
+  } else {
+    fetchLink = `https://api.pexels.com/v1/curated?per_page=15&page=${page}`;
+  }
+  const data = await fetchApi(fetchLink);
+  generatePictures(data);
 }
 curatedPhotos();
