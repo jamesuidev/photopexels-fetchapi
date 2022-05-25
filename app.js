@@ -43,13 +43,13 @@ function generatePictures(data) {
     </div>
     <img src=${photo.src.large}></img>`;
     gallery.appendChild(galleryImg);
-    galleryImg.addEventListener("hover", (photo) => {
-      const choiceList = document.createElement("div");
-      choiceList.classList.add("choice-overlay");
-      const list = document.createElement("ul");
-      list.classList.add("choice-list");
-      document.createElement("li");
-    });
+    // galleryImg.addEventListener("hover", (photo) => {
+    //   const choiceList = document.createElement("div");
+    //   choiceList.classList.add("choice-overlay");
+    //   const list = document.createElement("ul");
+    //   list.classList.add("choice-list");
+    //   document.createElement("li");
+    // });
   });
 }
 async function curatedPhotos() {
