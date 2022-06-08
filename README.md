@@ -11,6 +11,6 @@
 
 ## Live Project
 
-- [GitHub Pages]()
+- [GitHub Pages](https://jamesuidev.github.io/photopexels-fetchapi/)
 
 - [Netlify](https://www.netlify.com/)
